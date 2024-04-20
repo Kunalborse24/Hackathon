@@ -1,6 +1,6 @@
 
 
-input[type="text"], 
+ 
 input[type="number"], 
 input[type="tel"],
 input[type="password"] {
@@ -18,5 +18,14 @@ input[type="email"]{
  border: 1px solid #ccc; /* Add border to the input field */
  border-radius: 3px; /* Add border radius to the input field */
  margin-left: 69px; /* Add left margin to the input field */
+
+}
+input[type="text"]{
+  width: 200px; /* Set width of the input field */
+  padding: 5px;  /* Add padding to the input field */
+ border: 1px solid #ccc; /* Add border to the input field */
+ border-radius: 3px; /* Add border radius to the input field */
+ margin-left: 65px; /* Add left margin to the input field */
+ 
 
 }

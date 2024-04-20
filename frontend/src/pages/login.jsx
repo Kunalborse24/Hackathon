@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/user";
-
+import { Link } from "react-router-dom";
 function LoginUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,6 +61,7 @@ function LoginUser() {
                   placeholder="abc@gmail.com"
                 />
               </div>
+              <br />
               
               <div >
                 <label htmlFor="password">Password:</label>
@@ -75,13 +76,13 @@ function LoginUser() {
                 />
                 
               </div>
+
+              <br /><br />
               <div >
-                <button className="btn btn-success" onClick={onLogin} style={{ marginInline: "5%" }}>
-                  Login
+                <button className="btn-btn" onClick={onLogin} style={{ marginInline: "2%" }}>
+                  Sign in
                 </button>
-                <button className="btn btn-primary" style={{ marginInline: "1%" }}>
-                  Register
-                </button>
+                <Link to='/register'>Sign up</Link>
               </div>
             </div>
           </div>

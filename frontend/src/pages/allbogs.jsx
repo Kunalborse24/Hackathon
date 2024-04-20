@@ -3,10 +3,12 @@ import axios from "axios";
 import { useState } from "react";
 import Blog from "../component/blog";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 function Allbloglist() {
-  const [blog, setBlog] = useState([]);
+  const [blog, setBlog] = useState([]); 
 
+  
   return (
     
     <div> 

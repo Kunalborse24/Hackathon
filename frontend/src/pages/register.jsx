@@ -33,7 +33,7 @@ function RegisterUser() {
   };
 
   return (
-    <div>
+   
       <div
         className="App"
         
@@ -42,9 +42,7 @@ function RegisterUser() {
           className="container"
           
         >
-          <div
-            
-          >
+          <div className="row">
             <div >
               <br />
               <br />
@@ -55,7 +53,7 @@ function RegisterUser() {
               
             >
               <div>
-                <div>
+               
                   <label htmlFor="Name">Name:</label>
                   <input
                     onChange={(e) => {
@@ -67,8 +65,10 @@ function RegisterUser() {
                     placeholder="Name"
                   />
                   <br />
-                  <br />
-
+                 
+              </div>
+              <br />
+              <div>
                   <label htmlFor="Email">Email:</label>
                   <input
                     onChange={(e) => {
@@ -80,8 +80,10 @@ function RegisterUser() {
                     placeholder="abc@gmail.com"
                   />
                   <br />
-                  <br />
-
+                 
+              </div>
+              <br />
+              <div>
                   <label htmlFor="Password">Password:</label>
                   <input
                     onChange={(e) => {
@@ -96,24 +98,23 @@ function RegisterUser() {
                   <br />
 
                   
-                  <br />
-                  <br />
+                 
 
                   <button
                     className="btn-btn"
                     onClick={onRegister}
-                    style={{ marginInline: "5%" }}
+                    style={{ marginInline: "2%" }}
                   >
                    Sign up
                   </button>
-                 <Link>Sign in</Link>
-                </div>
+                 <Link to='/login'>Sign in</Link>
+                
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    
   );
 }
 
