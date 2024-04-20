@@ -16,7 +16,10 @@ app.use((request, response, next) => {
     request.url == "/register" ||
     request.url == "/login" ||
     request.url == "/user/login" ||
-    request.url == "/user/register"
+    request.url == "/user/register" ||
+    request.url == "/user/searchblog" ||
+    request.url == "/user/myblogs/:id" ||
+    request.url == "/user/allblogs" 
   ) {
     next();
   } else {
@@ -38,6 +41,6 @@ app.use((request, response, next) => {
 const userRouter = require("./routes/user");
 app.use("/user", userRouter);
 
-app.listen(4002, "0.0.0.0", () => {
-  console.log("server started on port 4002");
+app.listen(4009, "0.0.0.0", () => {
+  console.log("server started on 4009");
 });
