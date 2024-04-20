@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { register } from "../services/user";
 import { toast } from "react-toastify";
-
+import { Link } from "react-router-dom";
 function RegisterUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  
 
   const navigate = useNavigate();
 
@@ -18,10 +18,8 @@ function RegisterUser() {
       toast.warning("enter email");
     } else if (password.length === 0) {
       toast.warning("enter password");
-    } else if (phone.length === 0) {
-      toast.warning("enter phone");
-    } else {
-      const result = await register(name, email, password, phone);
+    }  else {
+      const result = await register(name, email, password);
       if (result["status"] === "success") {
         const { token, name } = result["data"];
         sessionStorage.setItem("token", token);
@@ -50,7 +48,7 @@ function RegisterUser() {
             <div >
               <br />
               <br />
-              <h1 >Registration Form</h1>
+              <h1 >New user</h1>
             </div>
             <br />
             <div
@@ -97,32 +95,18 @@ function RegisterUser() {
                   <br />
                   <br />
 
-                  <label htmlFor="Phone">Phone-Number:</label>
-                  <input
-                    onChange={(e) => {
-                      setPhone(e.target.value);
-                    }}
-                    type="tel"
-                    id="Phone"
-                    name="phone"
-                    placeholder="number"
-                  />
+                  
                   <br />
                   <br />
 
                   <button
-                    className="btn btn-success"
+                    className="btn-btn"
                     onClick={onRegister}
                     style={{ marginInline: "5%" }}
                   >
-                    Register
+                   Sign up
                   </button>
-                  <button
-                    className="btn btn-warning"
-                    style={{ marginInline: "1%" }}
-                  >
-                    Clear
-                  </button>
+                 <Link>Sign in</Link>
                 </div>
               </div>
             </div>
