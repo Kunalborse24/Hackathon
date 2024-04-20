@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/user";
 import { Link } from "react-router-dom";
+
+
 function LoginUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,14 +18,14 @@ function LoginUser() {
       toast.warning("Please enter your password");
     } else {
       const result = await login(email, password);
-      if (result["result"] === "success") {
+      if (result["status"] === "success") {
         const { token, name } = result["data"];
         sessionStorage.getItem("token", token);
         sessionStorage.getItem("name", name);
         toast.success("login success");
         navigate("/home");
-      } else {
-        toast.error(result["login error"]);
+      } else if(result["status"]==="error"){
+        toast.error("Enter valid password");
       }
     }
   };
@@ -82,7 +84,7 @@ function LoginUser() {
                 <button className="btn-btn" onClick={onLogin} style={{ marginInline: "2%" }}>
                   Sign in
                 </button>
-                <Link to='/register'>Sign up</Link>
+                <Link to="/register">Sign up</Link>
               </div>
             </div>
           </div>

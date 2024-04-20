@@ -9,28 +9,6 @@ const config = require("../config");
 
 const router = express.Router();
 
-router.get("/allblogs", (request, response) => {
-  const query = `select blogs.id, blogs.title, categories.title, blogs.createdTimestamp, user.full_name from blogs, user, categories where blogs.category_id = categories.id and blogs.user_id = user.id;`;
-  db.pool.execute(query, (error, result) => {
-    if (error) {
-      response.send(utils.createErrorResult(error));
-    } else {
-      response.send(utils.createSuccessResult(result));
-    }
-  });
-});
-
-router.post("/searchblog", (request, response) => {
-  const query = `select blogs.id, blogs.title, categories.title, blogs.createdTimestamp, user.full_name from blogs, user, categories where blogs.category_id = categories.id and blogs.user_id = user.id and blogs.id = any(select blogs.id from blogs where title like '%?%' or contents like '%?%');`;
-  db.pool.execute(query, (error, result) => {
-    if (error) {
-      response.send(utils.createErrorResult(error));
-    } else {
-      response.send(utils.createSuccessResult(result));
-    }
-  });
-});
-
 router.post("/register", (request, response) => {
   const { name, email, password } = request.body;
 
@@ -38,9 +16,9 @@ router.post("/register", (request, response) => {
 
   const encryptedPassword = String(crypto.SHA256(password));
 
-  db.pool.execute(query, [name, email, encryptedPassword ], (error, result) => {
+  db.pool.execute(query, [name, email, encryptedPassword], (error, result) => {
     if (error) {
-      response.send(utils.createErrorResult(error));
+      response.send(utils.createErrorResult(error, "could not register"));
     } else {
       mailer.sendEmail(
         email,
@@ -97,27 +75,49 @@ router.post("/login", (request, response) => {
   });
 });
 
-router.get("/myblogs/:id", (request, response) => {
-  const query = `select blogs.id, blogs.title, categories.title, blogs.createdTimestamp, user.full_name from blogs, user, categories where blogs.category_id = categories.id and blogs.user_id = user.id and user.id = ?;`;
+router.get("/allblogs", (request, response) => {
+  const query = `select blogs.id, blogs.title, categories.title, blogs.createdTimestamp, user.full_name from blogs, user, categories where blogs.category_id = categories.id and blogs.user_id = user.id;`;
   db.pool.execute(query, (error, result) => {
     if (error) {
-      response.send(utils.createErrorResult(error));
+      response.send(utils.createErrorResult(error, "no blogs found"));
     } else {
-      const user = users[0];
-      if (user["isDeleted"] == 1) {
-        response.send(utils.createErrorResult("account was deleted"));
-      } else {
-        const payload = { id: user.id };
+      response.send(utils.createSuccessResult(result, "blogs found"));
+    }
+  });
+});
 
-        const token = jwt.sign(payload, config.secret);
+router.post("/searchblog", (request, response) => {
+  const { title, contents } = request.body;
+  const query = `select blogs.id, blogs.title, categories.title, blogs.createdTimestamp, user.full_name from blogs, user, categories where blogs.category_id = categories.id and blogs.user_id = user.id and blogs.id = any(select blogs.id from blogs where title like '%?%' or contents like '%?%');`;
+  db.pool.execute(query, (title, contents), (error, result) => {
+    if (error) {
+      response.send(utils.createErrorResult(error, "blog not found"));
+    } else {
+      response.send(utils.createSuccessResult(result, "blog you were searching for was found"));
+    }
+  });
+});
 
-        const userData = {
-          name: `${user.name}`,
-          email,
-          token,
-        };
-        response.send(utils.createSuccessResult(result));
-      }
+router.post("/myblogs/:id", (request, response) => {
+  const { id } = request.body;
+  const query = `select blogs.id, blogs.title, categories.title, blogs.createdTimestamp, user.full_name from blogs, user, categories where blogs.category_id = categories.id and blogs.user_id = user.id and user.id = ?;`;
+  db.pool.execute(query, (id), (error, result) => {
+    if (error) {
+      response.send(utils.createErrorResult(error, "your blog not found"));
+    } else {
+      response.send(utils.createSuccessResult(result));
+    }
+  });
+});
+
+router.post("/addcategories", (request, response) => {
+  const { title, description } = request.body;
+  const statement = `insert into category (title, description) values(?, ?)`;
+  db.pool.query(statement, [title, description ], (error, result) => {
+    if (error) {
+      response.send(utils.createErrorResult(error, "could not add categories"));
+    } else {
+      response.send(utils.createSuccessResult(result));
     }
   });
 });

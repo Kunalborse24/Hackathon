@@ -20,19 +20,19 @@ function Home() {
         <div className="row">
             <div className="col-2">
                 <br /><br />
-                <Link >New Blog</Link>
+                <Link to="/newblog" >New Blog</Link>
                 <br />
-                <Link to='/allblog'>All Blog</Link>
+                <Link to='/allblogs'>All Blog</Link>
                 <br />
-                <Link to='/myblog'>My Blog</Link>
+                <Link to='/myblogs'>My Blog</Link>
                 <br />
                 <Link to='/earchblog'>Find Blog</Link>
                 <br />
-                <Link>Categories</Link>
+                <Link to="/addcategories">Categories</Link>
                 <br />
 
                 <br />
-                <Link >Sign out</Link>
+                <button className="btn-btn" onClick={onLogout}>Sign out</button>
             </div>
 
 

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { register } from "../services/user";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+
 function RegisterUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,8 +27,8 @@ function RegisterUser() {
         sessionStorage.setItem("name", name);
         toast.success("Registered in successfully");
         navigate("/login");
-      } else {
-        toast.error(result["error"]);
+      }else if(result["status"]==="error"){
+        toast.error("Registration failed");
       }
     }
   };
@@ -97,8 +98,6 @@ function RegisterUser() {
                   <br />
                   <br />
 
-                  
-                 
 
                   <button
                     className="btn-btn"

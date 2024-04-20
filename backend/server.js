@@ -15,10 +15,10 @@ app.use((request, response, next) => {
   if (
     request.url == "/register" ||
     request.url == "/login" ||
-    request.url == "/user/login" ||
     request.url == "/user/register" ||
+    request.url == "/user/login" ||
     request.url == "/user/searchblog" ||
-    request.url == "/user/myblogs/:id" ||
+    request.url == "/user/myblogs" ||
     request.url == "/user/allblogs" 
   ) {
     next();
