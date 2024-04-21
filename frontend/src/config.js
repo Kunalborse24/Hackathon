@@ -1,6 +1,5 @@
-const config = 
-{
-    url:  'http://localhost:4002/user/',
-}
+const config = {
+  url: "http://localhost:4009/user/",
+};
 
 export default config;

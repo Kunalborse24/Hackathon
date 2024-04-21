@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { toast } from "react-toastify";
 import { useState } from "react";
 import Blog from "./blog";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,8 +8,8 @@ import { useEffect } from "react";
 function Allbloglist() {
   const navigate = useNavigate();
   const onLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("name");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("name");
     navigate("/login");
   };
   const [blog, setBlog] = useState([]);
@@ -34,7 +34,9 @@ function Allbloglist() {
           <br />
 
           <br />
-          <button className="btn-btn" onClick={onLogout}>Sign out</button>
+          <button className="btn-btn" onClick={onLogout}>
+            Sign out
+          </button>
         </div>
 
         <div className="col-9">

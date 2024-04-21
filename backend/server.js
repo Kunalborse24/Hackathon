@@ -16,14 +16,13 @@ app.use((request, response, next) => {
     request.url == "/register" ||
     request.url == "/login" ||
     request.url == "/user/register" ||
-    request.url == "/user/login" ||
-    request.url == "/user/searchblog" ||
-    request.url == "/user/myblogs" ||
-    request.url == "/user/allblogs" 
+    request.url == "/user/login"
+    // request.url == "/user/searchblog" ||
+    // request.url == "/user/allblogs"
   ) {
     next();
   } else {
-    const token = request.header["token"];
+    const token = request.headers["token"];
     if (!token || token.length == 0) {
       response.send(utils.createErrorResult("missing token"));
       return;

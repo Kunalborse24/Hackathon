@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Blog from "./blog";
@@ -7,8 +7,8 @@ import Blog from "./blog";
 function Mybloglist() {
   const navigate = useNavigate();
   const onLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("name");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("name");
     navigate("/login");
   };
   const [blog, setBlog] = useState([]);

@@ -81,6 +81,9 @@ router.get("/allblogs", (request, response) => {
     if (error) {
       response.send(utils.createErrorResult(error, "no blogs found"));
     } else {
+      const payload = { id: request.params };
+      const token = jwt.sign(payload, config.secret);
+      response.send(utils.createSuccessResult(token, result));
       response.send(utils.createSuccessResult(result, "blogs found"));
     }
   });
@@ -93,31 +96,51 @@ router.post("/searchblog", (request, response) => {
     if (error) {
       response.send(utils.createErrorResult(error, "blog not found"));
     } else {
-      response.send(utils.createSuccessResult(result, "blog you were searching for was found"));
+      const payload = { id: request.params };
+      const token = jwt.sign(payload, config.secret);
+      response.send(utils.createSuccessResult(token, result));
     }
   });
 });
 
 router.post("/myblogs/:id", (request, response) => {
-  const { id } = request.body;
+  const { id } = request.params;
   const query = `select blogs.id, blogs.title, categories.title, blogs.createdTimestamp, user.full_name from blogs, user, categories where blogs.category_id = categories.id and blogs.user_id = user.id and user.id = ?;`;
-  db.pool.execute(query, (id), (error, result) => {
+  db.pool.execute(query, [id], (error, properties) => {
     if (error) {
       response.send(utils.createErrorResult(error, "your blog not found"));
     } else {
-      response.send(utils.createSuccessResult(result));
+      const payload = { id: request.params };
+      const token = jwt.sign(payload, config.secret);
+      response.send(utils.createSuccessResult(token, result));
     }
   });
 });
 
 router.post("/addcategories", (request, response) => {
   const { title, description } = request.body;
-  const statement = `insert into category (title, description) values(?, ?)`;
-  db.pool.query(statement, [title, description ], (error, result) => {
+  const statement = `insert into categories (title, description) values(?, ?)`;
+  db.pool.query(statement, [title, description], (error, result) => {
     if (error) {
       response.send(utils.createErrorResult(error, "could not add categories"));
     } else {
-      response.send(utils.createSuccessResult(result));
+      const payload = { id: request.params };
+      const token = jwt.sign(payload, config.secret);
+      response.send(utils.createSuccessResult(token, result));
+    }
+  });
+});
+
+router.post("/newblog", (request, response) => {
+  const { title, description } = request.body;
+  const statement = `insert into blogs (title, contents ) values(?, ?)`;
+  db.pool.query(statement, [title, description], (error, result) => {
+    if (error) {
+      response.send(utils.createErrorResult(error, "could not add blog"));
+    } else {
+      const payload = { id: request.params };
+      const token = jwt.sign(payload, config.secret);
+      response.send(utils.createSuccessResult(token, result));
     }
   });
 });

@@ -3,20 +3,38 @@ import { searchblog } from "../services/user";
 import { useEffect, useState } from "react";
 import Blog from "./blog";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Searchbloglist() {
     const navigate = useNavigate();
   const onLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("name");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("name");
     navigate("/login");
   };
-  const [blog, setBlog] = useState([])
+  const[search, setSearch] = useState("")
 
 
-  useEffect(()=>{
+  const onSearch = async()=>
+  {
+    const result = await searchblog(
+      search
+    )
+    if(result['status'] === "success")
+    {
+      toast.success("blog Added Successfully");
+      navigate("/home")
+    }
+    else
+    {
+      toast.error("finding blog failed")
+    }
+  }
 
-  })
+
+//   useEffect(()=>{
+
+//   })
 
   return (
     <div>
@@ -46,9 +64,9 @@ function Searchbloglist() {
         <div className="col-9">
           <br />
           <br />
-          <label htmlFor="">Search Blog :</label>
-          <input type="text" className="form formcontrol" />
-          <button onClick={searchblog} className="btn-btn ms-5">
+          <label htmlFor="search">Search Blog :</label>
+          <input type="text" className="form formcontrol" id="search" onChange={setSearch}/>
+          <button onClick={onSearch} className="btn-btn ms-5">
             search
           </button>
           <br />
@@ -66,9 +84,9 @@ function Searchbloglist() {
               </tr>
             </thead>
             <tbody>
-              {blog.map((blog) => {
+              {/* {blog.map((blog) => {
                 return <Blog id={blog.id} title={blog.title} category={blog.category} Action={blog.Action} />;
-              })}
+              })} */}
             </tbody>
           </table>
         </div>
