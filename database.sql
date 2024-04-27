@@ -1,4 +1,4 @@
-create table user (id int(10) auto_increment primary key, full_name varchar(50), email varchar(30), password varchar (20), phone_no varchar(10), createdTimestamp DATETIME default CURRENT_TIMESTAMP);
+create table user (id int(10) auto_increment primary key, full_name varchar(50), email varchar(30), password varchar (100), phone_no varchar(10), createdTimestamp DATETIME default CURRENT_TIMESTAMP);
 
 create table categories (id int(10) auto_increment primary key, title varchar(30), description varchar(50));
 
